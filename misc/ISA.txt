@@ -1,0 +1,332 @@
+//MOV FAMILY
+
+MOV A, R0           00
+MOV A, R1           01
+MOV A, R2           02
+MOV A, R3           03
+MOV A, R4           04
+MOV A, R5           05
+MOV A, R6           06
+MOV A, R7           07
+
+MOV A, Direct       08              OPERAND
+MOV A, #data        09              OPERAND
+MOV A, @R0          0A
+MOV A, @R1          0B
+
+
+MOV R0, A           0C
+MOV R1, A           0D
+MOV R2, A           0E
+MOV R3, A           0F
+MOV R4, A           10
+MOV R5, A           11
+MOV R6, A           12
+MOV R7, A           13
+
+MOV R0, Direct      14              OPERAND
+MOV R1, Direct      15              OPERAND
+MOV R2, Direct      16              OPERAND
+MOV R3, Direct      17              OPERAND
+MOV R4, Direct      18              OPERAND
+MOV R5, Direct      19              OPERAND
+MOV R6, Direct      1A              OPERAND
+MOV R7, Direct      1B              OPERAND
+
+MOV R0, #data       1C              OPERAND
+MOV R1, #data       1D              OPERAND
+MOV R2, #data       1E              OPERAND
+MOV R3, #data       1F              OPERAND
+MOV R4, #data       20              OPERAND
+MOV R5, #data       21              OPERAND
+MOV R6, #data       22              OPERAND
+MOV R7, #data       23              OPERAND
+
+
+MOV Direct, R0      24              OPERAND
+MOV Direct, R1      25              OPERAND
+MOV Direct, R2      26              OPERAND
+MOV Direct, R3      27              OPERAND
+MOV Direct, R4      28              OPERAND
+MOV Direct, R5      29              OPERAND
+MOV Direct, R6      2A              OPERAND
+MOV Direct, R7      2B              OPERAND
+
+MOV Direct, @R0     2C              OPERAND
+MOV Direct, @R1     2D              OPERAND
+
+MOV Direct, Direct  2E              OPERAND           OPERAND
+
+MOV Direct, #data   2F              OPERAND           OPERAND
+
+MOV @R0, A          30
+MOV @R1, A          31
+
+MOV @R0, Direct     32              OPERAND
+MOV @R1, Direct     33              OPERAND
+
+MOV @R0, #data      34              OPERAND
+MOV @R1, #data      35              OPERAND
+
+
+MOV DPTR, #data16   36              OPERAND            OPERAND
+
+MOV Direct, A       37              OPERAND
+
+//ADD FAMILY
+
+ADD A, R0           38
+ADD A, R1           39
+ADD A, R2           3A
+ADD A, R3           3B
+ADD A, R4           3C
+ADD A, R5           3D
+ADD A, R6           3E
+ADD A, R7           3F
+
+ADD A, Direct       40              OPERAND
+ADD A, @R0          41
+ADD A, @R1          42
+
+ADD A, #data        43              OPERAND
+
+//ADDC FAMILY
+
+ADDC A, R0          44
+ADDC A, R1          45
+ADDC A, R2          46
+ADDC A, R3          47
+ADDC A, R4          48
+ADDC A, R5          49
+ADDC A, R6          4A
+ADDC A, R7          4B
+
+ADDC A, Direct      4C              OPERAND
+
+ADDC A, @R0         4D
+ADDC A, @R1         4E
+
+ADDC A, #data       4F              OPERAND
+
+//SUBB FAMILY
+
+SUBB A, R0          50
+SUBB A, R1          51
+SUBB A, R2          52
+SUBB A, R3          53
+SUBB A, R4          54
+SUBB A, R5          55
+SUBB A, R6          56
+SUBB A, R7          57
+
+SUBB A, Direct      58              OPERAND
+
+SUBB A, @R0         59
+SUBB A, @R1         5A
+
+SUBB A, #data       5B              OPERAND
+
+//INC FAMILY
+
+INC A               5C
+
+INC R0              5D
+INC R1              5E
+INC R2              5F
+INC R3              60
+INC R4              61
+INC R5              62
+INC R6              63
+INC R7              64
+
+INC Direct          65              OPERAND
+
+INC @R0             66
+INC @R1             67
+
+INC DPTR            68
+
+
+//DEC FAMILY
+
+DEC A               69
+
+DEC R0              6A
+DEC R1              6B
+DEC R2              6C
+DEC R3              6D
+DEC R4              6E
+DEC R5              6F
+DEC R6              70
+DEC R7              71
+
+DEC Direct          72              OPERAND
+
+DEC @R0             73
+DEC @R1             74
+
+
+//MUL / DIV FAMILY
+
+MUL AB              75
+
+DIV AB              76
+
+
+//DA FAMILY
+
+DA A               77
+
+//ANL FAMILY
+
+ANL A, R0           78
+ANL A, R1           79
+ANL A, R2           7A
+ANL A, R3           7B
+ANL A, R4           7C
+ANL A, R5           7D
+ANL A, R6           7E
+ANL A, R7           7F
+
+ANL A, Direct       80              OPERAND
+ANL A, @R0          81
+ANL A, @R1          82
+ANL A, #data        83              OPERAND
+
+ANL Direct, A       84              OPERAND
+ANL Direct, #data   85              OPERAND   OPERAND
+
+//ORL FAMILY
+
+ORL A, R0           86
+ORL A, R1           87
+ORL A, R2           88
+ORL A, R3           89
+ORL A, R4           8A
+ORL A, R5           8B
+ORL A, R6           8C
+ORL A, R7           8D
+
+ORL A, Direct       8E              OPERAND
+ORL A, @R0          8F
+ORL A, @R1          90
+ORL A, #data        91              OPERAND
+
+ORL Direct, A       92              OPERAND
+ORL Direct, #data   93              OPERAND   OPERAND
+
+//XRL FAMILY
+
+XRL A, R0           94
+XRL A, R1           95
+XRL A, R2           96
+XRL A, R3           97
+XRL A, R4           98
+XRL A, R5           99
+XRL A, R6           9A
+XRL A, R7           9B
+
+XRL A, Direct       9C              OPERAND
+XRL A, @R0          9D
+XRL A, @R1          9E
+XRL A, #data        9F              OPERAND
+
+XRL Direct, A       A0              OPERAND
+XRL Direct, #data   A1              OPERAND   OPERAND
+
+//CLR FAMILY
+
+CLR A               A2
+CLR C               A3
+
+CPL A               A4
+CPL C               A5
+
+SWAP A              A6
+
+//BIT MANIPULATION
+
+SETB bit            A7              OPERAND
+CLR bit             A8              OPERAND
+CPL bit             A9              OPERAND
+
+//BIT - CARRY
+
+MOV C, bit          AA              OPERAND
+MOV bit, C          AB              OPERAND
+
+//LOGIC ON CARRY
+
+ANL C, bit          AC              OPERAND
+ANL C, /bit         AD              OPERAND
+
+ORL C, bit          AE              OPERAND
+ORL C, /bit         AF              OPERAND
+
+//CJNE FAMILY
+
+CJNE A, Direct, rel B0              OPERAND   OPERAND
+CJNE A, #data, rel  B1              OPERAND   OPERAND
+
+CJNE R0, #data,rel  B2              OPERAND   OPERAND
+CJNE R1, #data,rel  B3              OPERAND   OPERAND
+CJNE R2, #data,rel  B4              OPERAND   OPERAND
+CJNE R3, #data,rel  B5              OPERAND   OPERAND
+CJNE R4, #data,rel  B6              OPERAND   OPERAND
+CJNE R5, #data,rel  B7              OPERAND   OPERAND
+CJNE R6, #data,rel  B8              OPERAND   OPERAND
+CJNE R7, #data,rel  B9              OPERAND   OPERAND
+
+CJNE @R0, #data,rel BA              OPERAND   OPERAND
+CJNE @R1, #data,rel BB              OPERAND   OPERAND
+
+JZ rel              BC              OPERAND
+JNZ rel             BD              OPERAND
+
+//UNCONDITIONAL
+
+SJMP rel             BE              OPERAND
+AJMP addr11          BF              OPERAND
+LJMP addr16          C0              OPERAND   OPERAND
+
+//CARRY JUMPS
+
+JC rel               C1              OPERAND
+JNC rel              C2              OPERAND
+
+//BIT JUMPS
+
+JB bit, rel          C3              OPERAND   OPERAND
+JNB bit, rel         C4              OPERAND   OPERAND
+JBC bit, rel         C5              OPERAND   OPERAND
+
+ACALL addr11         C6              OPERAND
+LCALL addr16         C7              OPERAND   OPERAND
+
+RET                  C8
+RETI                 C9
+
+PUSH Direct          CA              OPERAND
+POP Direct           CB              OPERAND
+
+//XCH
+
+XCH A, R0            CC
+XCH A, R1            CD
+XCH A, R2            CE
+XCH A, R3            CF
+XCH A, R4            D0
+XCH A, R5            D1
+XCH A, R6            D2
+XCH A, R7            D3
+
+XCH A, Direct        D4              OPERAND
+XCH A, @R0           D5
+XCH A, @R1           D6
+
+//XCHD
+
+XCHD A, @R0          D7
+XCHD A, @R1          D8
+
+NOP                  D9
