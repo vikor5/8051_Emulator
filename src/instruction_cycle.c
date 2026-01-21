@@ -323,6 +323,69 @@ void execute(struct CPU* cpu){
             break;
         }
 
+        // SUBB 
+        case 0x50 ... 0x5B: {
+            int16_t temp = 0;
+            
+            uint8_t a = cpu->iram[A];
+            
+            uint8_t b;
+            switch (cpu->opcode)
+            {
+                // SUBB A, Rn
+                case 0x50 ... 0x57:
+                    b = cpu->iram[curr_bank + cpu->opcode - 0x50];
+                    break;
+
+                // SUBB A, Direct
+                case 0x58:
+                    b = cpu->iram[cpu->rom[cpu->PC++]];
+                    break;
+                
+                // SUBB A, @R0/@R1
+                case 0x59 ... 0x5A:
+                    b = cpu->iram[cpu->iram[curr_bank + cpu->opcode - 0x59]];
+                    break;
+                
+                // SUBB A, #data
+                case 0x5B:
+                    b = cpu->rom[cpu->PC++];
+                    break;
+            }
+
+            uint8_t cy = (cpu->iram[PSW] & CY) ? 1 : 0;
+            
+            // SUBB performs: A - B - CY
+            temp = (int16_t)a - (int16_t)b - (int16_t)cy;
+            
+            // Clear old flags
+            cpu->iram[PSW] &= ~(CY | AC | OV);
+            
+            // Overflow flag (for signed subtraction)
+            // Overflow occurs if:
+            // 1. Positive - Negative = Negative (underflow)
+            // 2. Negative - Positive = Positive (overflow)
+            // Using: (a ^ b) & (a ^ temp) & 0x80
+            if (((a ^ b) & (a ^ (uint8_t)temp)) & 0x80) {
+                cpu->iram[PSW] |= OV;
+            }
+            
+            // Carry flag (borrow)
+            if (temp < 0) {
+                cpu->iram[PSW] |= CY;
+            }
+            
+            // Auxiliary carry
+            // set if there was a borrow from bit 3 to bit 4
+            if (((a & 0x0F) - (b & 0x0F) - cy) < 0) {
+                cpu->iram[PSW] |= AC;
+            }
+            
+            cpu->iram[A] = (uint8_t)temp;
+            
+            break;
+        }
+
         
         default:
             fprintf(stderr, "opcode not implemented\n");
