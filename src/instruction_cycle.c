@@ -201,120 +201,52 @@ void execute(struct CPU* cpu){
             break;
         }
 
-        case 0x44 ... 0x4B: {
-            // ADDC A, Rn
+        // ADDC
+        case 0x44 ... 0x4F: {
             uint16_t temp = 0;
         
             uint8_t a  = cpu->iram[A];
-            uint8_t b  = cpu->iram[curr_bank + cpu->opcode - 0x44];
+
+            uint8_t b;
+            switch (cpu->opcode)
+            {
+                // ADDC A, Rn
+                case 0x44 ... 0x4B:
+                    b  = cpu->iram[curr_bank + cpu->opcode - 0x44];
+                    break;
+
+                // ADDC A, Direct
+                case 0x4C:
+                    b = cpu->iram[cpu->rom[cpu->PC++]];
+                    break;
+                
+                // ADDC A, @R0/@R1
+                case 0x4D ... 0x4E:
+                    b = cpu->iram[cpu->iram[curr_bank + cpu->opcode - 0x4D]];
+                    break;
+                
+                // ADDC A, #data
+                case 0x4F:
+                    b = cpu->rom[cpu->PC++];
+                    break;
+            }
+            
             uint8_t cy = (cpu->iram[PSW] & CY) ? 1 : 0;
         
             temp = a + b + cy;
         
-            //clear old carrys
+            // clear old flags
             cpu->iram[PSW] &= ~(CY | AC | OV);
         
-            //overflow
+            // overflow flag
             if ( (~(a ^ b) & (a ^ (uint8_t)temp) & 0x80) )
                 cpu->iram[PSW] |= OV;
         
-            //carry
+            // carry flag
             if (temp > 0xFF)
                 cpu->iram[PSW] |= CY;
         
-            //auxiliary carry
-            if ( ((a & 0x0F) + (b & 0x0F) + cy) > 0x0F )
-                cpu->iram[PSW] |= AC;
-        
-            cpu->iram[A] = (uint8_t)temp;
-        
-            break;
-        }
-
-        case 0x4C: {
-            // ADDC A, Direct
-            uint16_t temp = 0;
-        
-            uint8_t a  = cpu->iram[A];
-            uint8_t b  = cpu->iram[cpu->rom[cpu->PC++]];
-            uint8_t cy = (cpu->iram[PSW] & CY) ? 1 : 0;
-        
-            temp = a + b + cy;
-        
-            //clear old carrys
-            cpu->iram[PSW] &= ~(CY | AC | OV);
-        
-            //overflow
-            if ( (~(a ^ b) & (a ^ (uint8_t)temp) & 0x80) )
-                cpu->iram[PSW] |= OV;
-        
-            //carry
-            if (temp > 0xFF)
-                cpu->iram[PSW] |= CY;
-        
-            //auxiliary carry
-            if ( ((a & 0x0F) + (b & 0x0F) + cy) > 0x0F )
-                cpu->iram[PSW] |= AC;
-        
-            cpu->iram[A] = (uint8_t)temp;
-        
-            break;
-        }
-
-        case 0x4D ... 0x4E:{
-            //ADDC A, @R0/@R1
-
-            uint16_t temp = 0;
-        
-            uint8_t a  = cpu->iram[A];
-            uint8_t b  = cpu->iram[cpu->iram[curr_bank + cpu->opcode - 0x4D]];
-            uint8_t cy = (cpu->iram[PSW] & CY) ? 1 : 0;
-        
-            temp = a + b + cy;
-        
-            //clear old carrys
-            cpu->iram[PSW] &= ~(CY | AC | OV);
-        
-            //overflow
-            if ( (~(a ^ b) & (a ^ (uint8_t)temp) & 0x80) )
-                cpu->iram[PSW] |= OV;
-        
-            //carry
-            if (temp > 0xFF)
-                cpu->iram[PSW] |= CY;
-        
-            //auxiliary carry
-            if ( ((a & 0x0F) + (b & 0x0F) + cy) > 0x0F )
-                cpu->iram[PSW] |= AC;
-        
-            cpu->iram[A] = (uint8_t)temp;
-        
-            break;
-        }
-
-        case 0x4F:{
-            //ADDC A, #data
-
-            uint16_t temp = 0;
-        
-            uint8_t a  = cpu->iram[A];
-            uint8_t b  = cpu->rom[cpu->PC++];
-            uint8_t cy = (cpu->iram[PSW] & CY) ? 1 : 0;
-        
-            temp = a + b + cy;
-        
-            //clear old carrys
-            cpu->iram[PSW] &= ~(CY | AC | OV);
-        
-            //overflow
-            if ( (~(a ^ b) & (a ^ (uint8_t)temp) & 0x80) )
-                cpu->iram[PSW] |= OV;
-        
-            //carry
-            if (temp > 0xFF)
-                cpu->iram[PSW] |= CY;
-        
-            //auxiliary carry
+            // auxiliary carry for BCD
             if ( ((a & 0x0F) + (b & 0x0F) + cy) > 0x0F )
                 cpu->iram[PSW] |= AC;
         
