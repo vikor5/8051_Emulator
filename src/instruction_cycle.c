@@ -320,7 +320,7 @@ void execute(struct CPU* cpu){
 
         // INC
         case 0x5C ... 0x68: {
-            int mem_addr;
+            uint8_t mem_addr;
             switch (cpu->opcode)
             {
                 // INC A
@@ -352,7 +352,7 @@ void execute(struct CPU* cpu){
 
             // increment the value at that address
             // original value at that address before incrementing
-            int org_value = (cpu->iram[mem_addr])++;
+            uint8_t org_value = (cpu->iram[mem_addr])++;
 
             // one special case - INC DPTR
             // if DPL overflows, we have to increment DPH
