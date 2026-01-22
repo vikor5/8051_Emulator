@@ -318,6 +318,48 @@ void execute(struct CPU* cpu){
             break;
         }
 
+        // INC
+        case 0x5C ... 0x68: {
+            int mem_addr;
+            switch (cpu->opcode)
+            {
+                // INC A
+                case 0x5C:
+                    mem_addr = A;
+                    break;
+
+                // INC Rn
+                case 0x5D ... 0x64:
+                    mem_addr = curr_bank + cpu->opcode - 0x5D;
+                    break;
+                
+                // INC Direct
+                case 0x65:
+                    mem_addr = cpu->rom[cpu->PC++];
+                    break;
+
+                // INC @R0/@R1
+                case 0x66 ... 0x67:
+                    mem_addr = cpu->iram[curr_bank + cpu->opcode - 0x66];
+                    break;
+
+                // INC DPTR
+                case 0x68:
+                    mem_addr = DPL;
+                    
+                    break;
+            }
+
+            // increment the value at that address
+            // original value at that address before incrementing
+            int org_value = (cpu->iram[mem_addr])++;
+
+            // one special case - INC DPTR
+            // if DPL overflows, we have to increment DPH
+            if (org_value == 255) (cpu->iram[DPH])++;
+            break;
+        }
+
         
         default:
             fprintf(stderr, "opcode not implemented\n");
